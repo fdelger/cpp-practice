@@ -1,4 +1,6 @@
+#include <string>
 #include <cstdio>
+#include <iostream>
 
 class c1 {
   int i = 0;
@@ -9,6 +11,9 @@ public:
   int getValue() const; // Adding const at the end ensures this is safe to use for const variables
   ~c1();
   c1(const c1 &obj);
+  c1 operator + ( const c1 & ) const; // Returns by value because to add a + b a new object with result is needed
+  c1 & operator = (const c1 &); // The equal side returns by refernce because a new object isn't required
+  operator std::string ();
 };
 
 c1::c1(const c1 &rhs) {
@@ -30,6 +35,18 @@ c1::~c1() {
   puts("Destructor called");
 }
 
+c1 & c1::operator = (const c1 & rhs) {
+  puts("overloaded operator =");
+  if (this != &rhs) { // don't confuse this & with the one used for reference in arguments.
+    i = rhs.getValue();
+  }
+}
+
+c1 c1::operator + (const c1 & rhs) const {}
+
+c1::operator std::string() {
+  return std::to_string(this->getValue());
+}
 
 int main(int argc, char const *argv[])
 {
@@ -37,8 +54,14 @@ int main(int argc, char const *argv[])
   number.setValue(20);
   printf("The number is %d\n", number.getValue());
 
-  const c1 number2 = number;
+  c1 number2 = number;
+  c1 number3;
+  number3.setValue(10);
+  number2 = number3;
   printf("The number is %d\n", number2.getValue());
-  
+
+  std::string s = "The number, string use, is ";
+  s += number3;
+  std::cout << s << std::endl; 
   return 0;
 }
