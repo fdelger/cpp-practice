@@ -39,5 +39,8 @@ int main( int argc, char ** argv) {
   disp(ptrB);
   disp(ptrC);
 
+  message("reset ptrB from null reference to a number");
+  ptrB.reset(new int(5));
+  disp(ptrB);
   return 0;
 }
