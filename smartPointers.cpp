@@ -19,7 +19,7 @@ void disp (std::unique_ptr<int> & ptr) {
 
 int main( int argc, char ** argv) {
   message("create unique pointer");
-  std::unique_ptr<int> ptrA = std::make_unique<int>(1); // dynamic storage, not the use of makeunique. Cant do new Int (1) with make unique.
+  std::unique_ptr<int> ptrA = std::make_unique<int>(1); // make_unique better than using the new operator. try not to use new/delete.
   std::unique_ptr<int> ptrC (new int (3));
   disp(ptrA);
   disp(ptrC);
