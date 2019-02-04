@@ -19,8 +19,17 @@ void disp (std::unique_ptr<int> & ptr) {
 
 int main( int argc, char ** argv) {
   message("create unique pointer");
-  std::unique_ptr<int> ptrA = std::make_unique<int>(1); // make_unique better than using the new operator. try not to use new/delete.
+  auto ptrA = std::make_unique<int>(1); // make_unique better than using the new operator. try not to use new/delete.
   std::unique_ptr<int> ptrC (new int (3)); // bad
+
+  std::weak_ptr<int> ptrD;
+  auto ptrE = std::make_shared<int>(20); // Weak pointer has to point to a shared pointer, so we create one.
+  ptrD = ptrE;
+  message("Lets see the references for the weak and shared pointer");
+  std::cout << "References: "<< ptrD.use_count() << std::endl;
+  auto sharePtrD = ptrD.lock(); // Weak pointer has to be copied into shared pointer before we use it.
+  std::cout << *sharePtrD << std::endl;
+
   disp(ptrA);
   disp(ptrC);
   ptrC = std::move(ptrA);
